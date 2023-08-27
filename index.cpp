@@ -25,6 +25,94 @@ bool detectarLabels(string l) {
     }
     return toReturn;
 }
+
+string ConverterReg(string reg) {
+    cout << reg << endl;
+
+    if (reg == "$zero")
+        reg = "$0";
+    else if (reg == "$at")
+        reg = "$1";
+    else if (reg[1] == 'v') {
+        if (reg == "$v0")
+            reg = "$2";
+        else if (reg == "$v1")
+            reg = "$3";
+    }
+    else if (reg[1] == 'a') {
+        if (reg == "$a0")
+            reg = "$4";
+        else if (reg == "$a1")
+            reg = "$5";
+        else if (reg == "$a2")
+            reg = "$6";
+        else if (reg == "$a3")
+            reg = "$7";
+    }
+    else if (reg[1] == 't') {
+        if (reg == "$t0")
+            reg = "$8";
+        else if (reg == "$t1")
+            reg = "$9";
+        else if (reg == "$t2")
+            reg = "$10";
+        else if (reg == "$t3")
+            reg = "$11";
+        else if (reg == "$t4")
+            reg = "$12";
+        else if (reg == "$t5")
+            reg = "$13";
+        else if (reg == "$t6")
+            reg = "$14";
+        else if (reg == "$t7")
+            reg = "$15";
+        else if (reg == "$t8")
+            reg = "$24";
+        else if (reg == "$t9")
+            reg = "$25";
+    }
+    else if (reg[1] == 's') {
+        if (reg == "$s0")
+            reg = "$16";
+        else if (reg == "$s1")
+            reg = "$17";
+        else if (reg == "$s2")
+            reg = "$18";
+        else if (reg == "$s3")
+            reg = "$19";
+        else if (reg == "$s4")
+            reg = "$20";
+        else if (reg == "$s5")
+            reg = "$21";
+        else if (reg == "$s6")
+            reg = "$22";
+        else if (reg == "$s7")
+            reg = "$23";
+        else if (reg == "$sp")
+            reg = "$29";
+    }
+    else if (reg[1] == 'k') {
+        if (reg == "$k0")
+            reg = "$26";
+        else if (reg == "$k1")
+            reg = "$27";
+    }
+    else if (reg == "$gp")
+        reg = "$28";
+    else if (reg == "$fp")
+        reg = "$30";
+    else if (reg == "$ra")
+        reg = "$31";
+
+
+
+    cout << reg;
+
+    system("pause");
+
+    return reg;
+}
+
  string TraduzirBin(string identificado)
 {
     if (identificado == "$0" || identificado == "$zero")
@@ -276,6 +364,8 @@ if (!fin.is_open())
                 carac = lines[i][cont];
 
             }
+            reg1 = ConverterReg(reg1); // converte os registradores tipo $s4 para $20, por exemplo
+
             cont++;
             string reg2;
             carac = lines[i][cont];
@@ -286,9 +376,9 @@ if (!fin.is_open())
 
                     cont++;
                     carac = lines[i][cont];
-            
-
             }
+            reg2 = ConverterReg(reg2); // converte os registradores tipo $s4 para $20, por exemplo
+
             cont++;
             string reg3;
              carac = lines[i][cont];
@@ -301,6 +391,7 @@ if (!fin.is_open())
                 carac = lines[i][cont];
 
             }
+            reg3 = ConverterReg(reg3); // converte os registradores tipo $s4 para $20, por exemplo
 
             string opcode = TraduzirBin(0);
             string rd = TraduzirBin(reg1);
@@ -315,7 +406,7 @@ if (!fin.is_open())
 
     for (int i = 0; i < quant; i++)
     {
-        cout << binariolinhas[i];
+        cout << binariolinhas[i] << endl;
     }
 
 
