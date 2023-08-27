@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <string>
 using namespace std;
@@ -27,8 +27,6 @@ bool detectarLabels(string l) {
 }
 
 string ConverterReg(string reg) {
-    cout << reg << endl;
-
     if (reg == "$zero")
         reg = "$0";
     else if (reg == "$at")
@@ -103,12 +101,6 @@ string ConverterReg(string reg) {
         reg = "$30";
     else if (reg == "$ra")
         reg = "$31";
-
-
-
-    cout << reg;
-
-    system("pause");
 
     return reg;
 }
