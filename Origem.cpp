@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <String>
+#include <bitset>
+#include <sstream>
 using namespace std;
 
 struct Labels {
@@ -183,97 +185,6 @@ string TraduzirBin(string identificado)
     else if (identificado == "$31" || identificado == "31")
         return ("11111");
 }
-string TraduzirBin(int opOUfunc)
-{
-    if (opOUfunc == 0)
-        return ("000000");
-    else if (opOUfunc == 1)
-        return ("000001");
-    else if (opOUfunc == 2)
-        return ("000010");
-    else if (opOUfunc == 3)
-        return ("000011");
-    else if (opOUfunc == 4)
-        return ("000100");
-    else if (opOUfunc == 5)
-        return ("000101");
-    else if (opOUfunc == 6)
-        return ("000110");
-    else if (opOUfunc == 7)
-        return ("000111");
-    else if (opOUfunc == 8)
-        return ("001000");
-    else if (opOUfunc == 9)
-        return ("001001");
-    else if (opOUfunc == 10)
-        return ("001010");
-    else if (opOUfunc == 11)
-        return ("001011");
-    else if (opOUfunc == 12)
-        return ("001100");
-    else if (opOUfunc == 13)
-        return ("001101");
-    else if (opOUfunc == 14)
-        return ("001110");
-    else if (opOUfunc == 15)
-        return ("000111");
-    else if (opOUfunc == 16)
-        return ("010000");
-    else if (opOUfunc == 17)
-        return ("010001");
-    else if (opOUfunc == 18)
-        return ("010010");
-    else if (opOUfunc == 19)
-        return ("010011");
-    else if (opOUfunc == 20)
-        return ("010100");
-    else if (opOUfunc == 21)
-        return ("010101");
-    else if (opOUfunc == 22)
-        return ("010110");
-    else if (opOUfunc == 23)
-        return ("010111");
-    else if (opOUfunc == 24)
-        return ("011000");
-    else if (opOUfunc == 25)
-        return ("011001");
-    else if (opOUfunc == 26)
-        return ("011010");
-    else if (opOUfunc == 27)
-        return ("011011");
-    else if (opOUfunc == 28)
-        return ("011100");
-    else if (opOUfunc == 29)
-        return ("011101");
-    else if (opOUfunc == 30)
-        return ("011110");
-    else if (opOUfunc == 31)
-        return ("011111");
-    else if (opOUfunc == 32)
-        return ("100000");
-    else if (opOUfunc == 33)
-        return ("100001");
-    else if (opOUfunc == 34)
-        return ("100010");
-    else if (opOUfunc == 35)
-        return ("100011");
-    else if (opOUfunc == 36)
-        return ("100100");
-    else if (opOUfunc == 37)
-        return ("100101");
-    else if (opOUfunc == 38)
-        return ("100110");
-    else if (opOUfunc == 39)
-        return ("100111");
-    else if (opOUfunc == 40)
-        return ("101000");
-    else if (opOUfunc == 41)
-        return ("101001");
-    else if (opOUfunc == 42)
-        return ("101010");
-    else if (opOUfunc == 43)
-        return ("101011");
-}
 
 int main() {
     ifstream fin; // cria objeto para a saída
@@ -357,7 +268,9 @@ int main() {
         {"or", 'R', 0, 37, 2, 3, 1, 0, 3},
         {"slt", 'R', 0, 42, 2, 3, 1, 0, 3},
         {"sltu", 'R', 0, 43, 2, 3, 1, 0, 3},
-        {"mul", 'R', 28, 2, 2, 3, 1, 0, 3}
+        {"mul", 'R', 28, 2, 2, 3, 1, 0, 3},
+        {"addi", 'I', 8, 0, 1, 2, 3, 0, 3}
+
     };
 
     string* binariolinhas = new string[quant]; //vetor para armazenar os binários da linha;
@@ -447,9 +360,31 @@ int main() {
         rd = TraduzirBin(rd);
         rt = TraduzirBin(rt);
         sa = TraduzirBin(sa);
-        string func = TraduzirBin(inst.function);
+
+        const int bit6=6;
+        const int bit16=16;
+        string opcode = bitset<bit6>(inst.opcode).to_string();
+        rs = TraduzirBin(rs);
+        int possivelimmediate;
+        istringstream(rd) >> possivelimmediate;
+        cout<<possivelimmediate<<"!";
+        rd = TraduzirBin(rd);
+        rt = TraduzirBin(rt);
+        sa = TraduzirBin(sa);
+
+        if(inst.formato=='R')
+        {
+            string func = bitset<bit6>(inst.function).to_string();
         binariolinhas[i] = opcode + rs + rt + rd + sa + func;
 
+        }
+        else if(inst.formato=='I')
+        {
+
+             string func = bitset<bit16>(possivelimmediate).to_string();
+             binariolinhas[i] = opcode + rs + rt + func;
+
+        }
 
 
     }
