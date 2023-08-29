@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <String>
+#include <cstring>
 #include <bitset>
 #include <sstream>
 using namespace std;
@@ -278,8 +279,8 @@ int main() {
         {"andi", 'I', 12, 0, 2, 1, 3, 0, 3},
         {"ori", 'I', 13, 0, 2, 1, 3, 0, 3},
         {"lui", 'I', 15, 0, 0, 1, 2, 0, 2},
-        {"lw", 'I', 35, 0, 3, 1, 2, 0, 3},
-        {"lw", 'I', 43, 0, 3, 1, 2, 0, 3}
+        {"lw", 'I', 35, 0, 3, 1, 2, 0, 2},
+        {"sw", 'I', 43, 0, 3, 1, 2, 0, 2}
 
     };
 
@@ -357,6 +358,20 @@ int main() {
             }
         }
 
+        if (operacao == "lw" || operacao == "sw") {
+            string provStr = registrador[2];
+            registrador[2] = "";
+
+            while(provStr[0] != '(') {
+                    registrador[2] += provStr[0];
+                    provStr = provStr.substr(1);
+                  }
+            provStr = provStr.substr(1);
+
+            for (int i = 0; provStr[i] != ')'; i++)
+                registrador[3] += provStr[i];
+        }
+
          for (int i = 0; i < 4; i++)
             registrador[i] = ConverterReg(registrador[i]);
 
@@ -371,7 +386,6 @@ int main() {
         rs = TraduzirBin(rs);
         int possivelimmediate;
         istringstream(rd) >> possivelimmediate;
-        cout<<possivelimmediate<<"!";
         rd = TraduzirBin(rd);
         rt = TraduzirBin(rt);
         sa = TraduzirBin(sa);
