@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <String>
 #include <bitset>
@@ -269,7 +269,17 @@ int main() {
         {"slt", 'R', 0, 42, 2, 3, 1, 0, 3},
         {"sltu", 'R', 0, 43, 2, 3, 1, 0, 3},
         {"mul", 'R', 28, 2, 2, 3, 1, 0, 3},
-        {"addi", 'I', 8, 0, 1, 2, 3, 0, 3}
+        {"beq", 'R', 4, 0, 1, 2, 3, 0, 3},
+        {"bne", 'R', 5, 0, 1, 2, 3, 0, 3},
+        {"addi", 'I', 8, 0, 2, 1, 3, 0, 3},
+        {"addiu", 'I', 9, 0, 2, 1, 3, 0, 3},
+        {"slti", 'I', 10, 0, 2, 1, 3, 0, 3},
+        {"sltiu", 'I', 11, 0, 2, 1, 3, 0, 3},
+        {"andi", 'I', 12, 0, 2, 1, 3, 0, 3},
+        {"ori", 'I', 13, 0, 2, 1, 3, 0, 3},
+        {"lui", 'I', 15, 0, 0, 1, 2, 0, 2},
+        {"lw", 'I', 35, 0, 3, 1, 2, 0, 3},
+        {"lw", 'I', 43, 0, 3, 1, 2, 0, 3}
 
     };
 
@@ -354,12 +364,6 @@ int main() {
         string rd = registrador[inst.rd];
         string rt = registrador[inst.rt];
         string sa = registrador[inst.sa];
-
-        string opcode = TraduzirBin(inst.opcode);
-        rs = TraduzirBin(rs);
-        rd = TraduzirBin(rd);
-        rt = TraduzirBin(rt);
-        sa = TraduzirBin(sa);
 
         const int bit6=6;
         const int bit16=16;
