@@ -291,7 +291,9 @@ int main() {
         {"ori", 'I', 13, 0, 2, 1, 3, 0, 3},
         {"lui", 'I', 15, 0, 0, 1, 2, 0, 2},
         {"lw", 'I', 35, 0, 3, 1, 2, 0, 2},
-        {"sw", 'I', 43, 0, 3, 1, 2, 0, 2}
+        {"sw", 'I', 43, 0, 3, 1, 2, 0, 2},
+        {"j", 'J', 2, 0, 0, 0, 0, 0, 1},
+        {"jal", 'J', 3, 0, 0, 0, 0, 0, 1}
 
     };
 
@@ -382,6 +384,8 @@ int main() {
             for (int i = 0; provStr[i] != ')'; i++)
                 registrador[3] += provStr[i];
         }
+
+        // endereço do j e jr armazenados no registrador [1]
 
          for (int i = 0; i < 4; i++)
             registrador[i] = ConverterReg(registrador[i]);
