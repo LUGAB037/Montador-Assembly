@@ -49,83 +49,21 @@ string ConverterReg(string reg) {
 
     Registradores regs[] = {
         {"$zero", "$0"},
-        {"$at", "$1"}
+        {"$at", "$1"},
+        {"$v0", "$2"}, {"$v1", "$3"},
+        {"$a0", "$4"}, {"$a1", "$5"}, {"$a2", "$6"}, {"$a3", "$7"},
+        {"$t0", "$8"}, {"$t1", "$9"}, {"$t2", "$10"}, {"$t3", "$11"}, {"$t4", "$12"}, {"$t5", "$13"}, {"$t6", "$14"}, {"$t7", "$15"}, {"$t8", "$24"}, {"$t9", "$25"},
+        {"$s0", "$16"}, {"$s1", "$17"}, {"$s2", "$18"}, {"$s3", "$19"}, {"$s4", "$20"}, {"$s5", "$21"}, {"$s6", "$22"}, {"$s7", "$23"},
+        {"sp", "$29"},
+        {"$k0", "$26"}, {"$k1", "$27"},
+        {"$gp", "$28"},
+        {"$fp", "$30"},
+        {"$ra", "$31"}
     };
 
-    if (reg == "$zero")
-        reg = "$0";
-    else if (reg == "$at")
-        reg = "$1";
-    else if (reg[1] == 'v') {
-        if (reg == "$v0")
-            reg = "$2";
-        else if (reg == "$v1")
-            reg = "$3";
-    }
-    else if (reg[1] == 'a') {
-        if (reg == "$a0")
-            reg = "$4";
-        else if (reg == "$a1")
-            reg = "$5";
-        else if (reg == "$a2")
-            reg = "$6";
-        else if (reg == "$a3")
-            reg = "$7";
-    }
-    else if (reg[1] == 't') {
-        if (reg == "$t0")
-            reg = "$8";
-        else if (reg == "$t1")
-            reg = "$9";
-        else if (reg == "$t2")
-            reg = "$10";
-        else if (reg == "$t3")
-            reg = "$11";
-        else if (reg == "$t4")
-            reg = "$12";
-        else if (reg == "$t5")
-            reg = "$13";
-        else if (reg == "$t6")
-            reg = "$14";
-        else if (reg == "$t7")
-            reg = "$15";
-        else if (reg == "$t8")
-            reg = "$24";
-        else if (reg == "$t9")
-            reg = "$25";
-    }
-    else if (reg[1] == 's') {
-        if (reg == "$s0")
-            reg = "$16";
-        else if (reg == "$s1")
-            reg = "$17";
-        else if (reg == "$s2")
-            reg = "$18";
-        else if (reg == "$s3")
-            reg = "$19";
-        else if (reg == "$s4")
-            reg = "$20";
-        else if (reg == "$s5")
-            reg = "$21";
-        else if (reg == "$s6")
-            reg = "$22";
-        else if (reg == "$s7")
-            reg = "$23";
-        else if (reg == "$sp")
-            reg = "$29";
-    }
-    else if (reg[1] == 'k') {
-        if (reg == "$k0")
-            reg = "$26";
-        else if (reg == "$k1")
-            reg = "$27";
-    }
-    else if (reg == "$gp")
-        reg = "$28";
-    else if (reg == "$fp")
-        reg = "$30";
-    else if (reg == "$ra")
-        reg = "$31";
+    for (int i = 0; i < 32; i++)
+        if (reg == regs[i].nome)
+            reg = regs[i].numero;
 
     return reg;
 }
@@ -385,7 +323,7 @@ int main() {
                 registrador[3] += provStr[i];
         }
 
-        // endereço do j e jr armazenados no registrador [1]
+        // endereço do j e jal armazenados no registrador [1]
 
          for (int i = 0; i < 4; i++)
             registrador[i] = ConverterReg(registrador[i]);
