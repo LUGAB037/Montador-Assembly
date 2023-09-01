@@ -23,6 +23,11 @@ struct Instrucao {
     int coletas = 0;
 };
 
+struct Registradores {
+    string nome;
+    string numero;
+};
+
 // retorna 1 caso a linha seja o início de um label (palavra seguida de ':')
 bool detectarLabels(string l) {
     //bool toReturn = new bool;
@@ -41,6 +46,12 @@ bool detectarLabels(string l) {
     return toReturn;
 }
 string ConverterReg(string reg) {
+
+    Registradores regs[] = {
+        {"$zero", "$0"},
+        {"$at", "$1"}
+    };
+
     if (reg == "$zero")
         reg = "$0";
     else if (reg == "$at")
