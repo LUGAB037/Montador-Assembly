@@ -201,8 +201,8 @@ int main() {
     fin.close();
 
     Instrucao instrucoes[] = { // nome, formato, opcode, função, rs, rt, rd, sa, coletas
-        {"sll", 'R', 0, 0, 2, 0, 1, 3, 3},
-        {"srl", 'R', 0, 2, 0, 0, 1, 3, 3},
+        {"sll", 'R', 0, 0, 0, 2, 1, 3, 3},
+        {"srl", 'R', 0, 0, 0, 2, 1, 3, 3},
         {"jr", 'R', 0, 8, 1, 0, 0, 0, 1},
         {"mfhi", 'R', 0, 16, 0, 0, 1, 0, 1},
         {"mflo", 'R', 0, 18, 0, 0, 1, 0, 1},
@@ -230,8 +230,8 @@ int main() {
         {"lui", 'I', 15, 0, 0, 1, 2, 0, 2},
         {"lw", 'I', 35, 0, 3, 1, 2, 0, 2},
         {"sw", 'I', 43, 0, 3, 1, 2, 0, 2},
-        {"j", 'J', 2, 0, 0, 0, 0, 0, 1},
-        {"jal", 'J', 3, 0, 0, 0, 0, 0, 1}
+        {"j", 'J', 2, 0, 0, 0, 3, 0, 1},
+        {"jal", 'J', 3, 0, 0, 0, 3, 0, 1}
 
     };
 
@@ -341,6 +341,7 @@ int main() {
 
         const int bit6=6;
         const int bit16=16;
+        const int bit26=26;
         string opcode = bitset<bit6>(inst.opcode).to_string();
         rs = TraduzirBin(rs);
         int possivelimmediate;
@@ -360,6 +361,13 @@ int main() {
 
              string func = bitset<bit16>(possivelimmediate).to_string();
              binariolinhas[i] = opcode + rs + rt + func;
+
+        }
+        else if(inst.formato=='J')
+        {
+            possivelimmediate+=400000 - 1;
+            string func = bitset<bit26>(possivelimmediate).to_string();
+             binariolinhas[i] = opcode + func;
 
         }
 
