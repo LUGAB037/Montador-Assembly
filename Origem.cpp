@@ -1,9 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <String>
-#include <cstring>
 #include <bitset>
 #include <sstream>
+#include <stdio.h>
 using namespace std;
 
 struct Labels {
@@ -322,8 +322,14 @@ int main() {
             for (int i = 0; provStr[i] != ')'; i++)
                 registrador[3] += provStr[i];
         }
+        else if (operacao == "j" || operacao == "jal") {
+            for (int i = 0; i < quantLabels; i++)
+                if (registrador[1] == posLabels[i].nome)
+                    registrador[3] = to_string(posLabels[i].pos);
 
-        // endereço do j e jal armazenados no registrador [1]
+            cout << registrador[3] << endl;
+            system("pause");
+        }
 
          for (int i = 0; i < 4; i++)
             registrador[i] = ConverterReg(registrador[i]);
