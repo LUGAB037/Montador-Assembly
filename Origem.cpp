@@ -153,6 +153,9 @@ int main() {
         getline(fin, line);
         quant++;
 
+        if (line[line.length()-1] == ':')
+            quant--;
+
         if (detectarLabels(line) == 1)
             quantLabels++;
 
@@ -162,6 +165,7 @@ int main() {
     string* lines = new string[quant]; // cria lista de strings para armazenar as linhas do código assembly
     Labels* posLabels = new Labels[quantLabels]; // cria lista que vai armazenar posição de cada label
 
+    int ttt = quant;
     quant = 0;
     quantLabels = 0;
     fin.open("Arquivo.txt");
@@ -170,7 +174,6 @@ int main() {
         cout << "A abertura do arquivo falhou!" << endl;
         exit(EXIT_FAILURE);
     }
-
 
     // armazena cada linha do código assembly na lista "lines"
     while (fin.good()) {
@@ -196,9 +199,20 @@ int main() {
         while (lines[quant][0] == ':' or lines[quant][0] == '\t' or lines[quant][0] == ' ')
             lines[quant] = lines[quant].substr(1);
 
+        if (lines[quant] == "")
+            quant--;
         quant += 1;
+
     }
     fin.close();
+
+    for (int i = 0; i < quant; i++)
+        cout << lines[i] << endl;
+    cout << endl;
+    for (int i = 0; i < quantLabels; i++)
+        cout << posLabels[i].nome << ": " << posLabels[i].pos << endl;
+
+    system("pause");
 
     Instrucao instrucoes[] = { // nome, formato, opcode, função, rs, rt, rd, sa, coletas
         {"sll", 'R', 0, 0, 0, 2, 1, 3, 3},
@@ -322,13 +336,17 @@ int main() {
             for (int i = 0; provStr[i] != ')'; i++)
                 registrador[3] += provStr[i];
         }
+
         else if (operacao == "j" || operacao == "jal") {
             for (int i = 0; i < quantLabels; i++)
                 if (registrador[1] == posLabels[i].nome)
                     registrador[3] = to_string(posLabels[i].pos);
+        }
 
-            cout << registrador[3] << endl;
-            system("pause");
+        else if (operacao == "beq" || operacao == "bne") {
+            for (int i = 0; i < quantLabels; i++)
+                if (registrador[3] == posLabels[i].nome)
+                    registrador[3] = to_string(posLabels[i].pos);
         }
 
          for (int i = 0; i < 4; i++)
