@@ -233,8 +233,8 @@ int main() {
         {"slt", 'R', 0, 42, 2, 3, 1, 0, 3},
         {"sltu", 'R', 0, 43, 2, 3, 1, 0, 3},
         {"mul", 'R', 28, 2, 2, 3, 1, 0, 3},
-        {"beq", 'R', 4, 0, 1, 2, 3, 0, 3},
-        {"bne", 'R', 5, 0, 1, 2, 3, 0, 3},
+        {"beq", 'I', 4, 0, 1, 2, 3, 0, 3},
+        {"bne", 'I', 5, 0, 1, 2, 3, 0, 3},
         {"addi", 'I', 8, 0, 2, 1, 3, 0, 3},
         {"addiu", 'I', 9, 0, 2, 1, 3, 0, 3},
         {"slti", 'I', 10, 0, 2, 1, 3, 0, 3},
@@ -376,6 +376,11 @@ int main() {
         }
         else if(inst.formato=='I')
         {
+                if(operacao=="beq" || operacao=="bne")
+                {
+                    possivelimmediate= possivelimmediate-i;
+                    cout<<"sou uma operaão beq/bne"<<endl;
+                }
 
              string func = bitset<bit16>(possivelimmediate).to_string();
              binariolinhas[i] = opcode + rs + rt + func;
@@ -391,12 +396,43 @@ int main() {
 
 
     }
+     string * hexadecimais= new string [quant];
+
 
     for (int i = 0; i < quant; i++)
     {
         cout << binariolinhas[i] << endl;
-    }
 
+    }
+    for(int i=0;i<quant;i++)
+    {
+        bitset<32> bits(binariolinhas[i]);
+    stringstream hexStream;
+    hexStream << hex << bits.to_ullong();
+     hexadecimais[i]= hexStream.str();
+     cout<<hexadecimais[i]<<endl;
+
+    }
+    system("pause");
+
+    ofstream fout;
+    fout.open("Montador.hex");
+    fout<<"v2.0 raw"<<endl;
+    int ContInst=1;
+    for(int i=0;i<quant;i++)
+    {
+        if(ContInst<=3)
+        {
+            fout<<hexadecimais[i]<<" ";
+            ContInst++;
+        }
+       else
+       {
+            fout<<hexadecimais[i]<<endl;
+            ContInst=1;
+       }
+    }
+    fout.close();
 
 
 }
