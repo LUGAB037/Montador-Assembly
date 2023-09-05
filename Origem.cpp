@@ -137,8 +137,11 @@ string TraduzirBin(string identificado)
 }
 
 int main() {
+    cout<<"Digite o nome do Arquivo a ser lido: ";
+    string Arquivo;
+    cin>>Arquivo;
     ifstream fin; // cria objeto para a saída
-    fin.open("Arquivo.txt"); // "linka" o arquivo ao objeto
+    fin.open(Arquivo); // "linka" o arquivo ao objeto
     if (!fin.is_open())
     {
         cout << "A abertura do arquivo falhou!" << endl;
@@ -168,7 +171,7 @@ int main() {
     int ttt = quant;
     quant = 0;
     quantLabels = 0;
-    fin.open("Arquivo.txt");
+    fin.open(Arquivo);
     if (!fin.is_open())
     {
         cout << "A abertura do arquivo falhou!" << endl;
@@ -205,15 +208,6 @@ int main() {
 
     }
     fin.close();
-
-    for (int i = 0; i < quant; i++)
-        cout << lines[i] << endl;
-    cout << endl;
-    for (int i = 0; i < quantLabels; i++)
-        cout << posLabels[i].nome << ": " << posLabels[i].pos << endl;
-
-    system("pause");
-
     Instrucao instrucoes[] = { // nome, formato, opcode, função, rs, rt, rd, sa, coletas
         {"sll", 'R', 0, 0, 0, 2, 1, 3, 3},
         {"srl", 'R', 0, 0, 0, 2, 1, 3, 3},
@@ -378,8 +372,7 @@ int main() {
         {
                 if(operacao=="beq" || operacao=="bne")
                 {
-                    possivelimmediate= possivelimmediate-i;
-                    cout<<"sou uma operaão beq/bne"<<endl;
+                    possivelimmediate= possivelimmediate-i-1;
                 }
 
              string func = bitset<bit16>(possivelimmediate).to_string();
@@ -410,13 +403,11 @@ int main() {
     stringstream hexStream;
     hexStream << hex << bits.to_ullong();
      hexadecimais[i]= hexStream.str();
-     cout<<hexadecimais[i]<<endl;
 
     }
-    system("pause");
 
     ofstream fout;
-    fout.open("Montador.hex");
+    fout.open("Resultado.hex");
     fout<<"v2.0 raw"<<endl;
     int ContInst=1;
     for(int i=0;i<quant;i++)
@@ -432,6 +423,10 @@ int main() {
             ContInst=1;
        }
     }
+    fout.close();
+
+
+}
     fout.close();
 
 
