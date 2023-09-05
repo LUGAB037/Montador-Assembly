@@ -6,6 +6,7 @@
 #include <stdio.h>
 using namespace std;
 
+
 struct Labels {
     string nome;
     int pos = 0;
